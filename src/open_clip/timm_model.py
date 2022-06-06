@@ -4,6 +4,7 @@ Wraps timm (https://github.com/rwightman/pytorch-image-models) models for use as
 """
 from collections import OrderedDict
 
+import torch
 import torch.nn as nn
 
 try:
@@ -49,6 +50,18 @@ class TimmModel(nn.Module):
             self.trunk.reset_classifier(0, **reset_kwargs)
         prev_chs = self.trunk.num_features
 
+        if isinstance(pretrained, str):
+            pretrained_state_dict = torch.load(pretrained)
+
+            fc = OrderedDict()
+            fc['weight'] = pretrained_state_dict['fc.weight']
+            fc['bias'] = pretrained_state_dict['fc.bias']
+
+            del pretrained_state_dict['fc.weight']
+            del pretrained_state_dict['fc.bias']
+
+            self.trunk.load_state_dict(pretrained_state_dict)
+
         head_layers = OrderedDict()
         if pool == 'abs_attn':
             head_layers['pool'] = AbsAttentionPool2d(prev_chs, feat_size=feat_size, out_features=embed_dim)
@@ -63,6 +76,8 @@ class TimmModel(nn.Module):
         if proj == 'linear':
             head_layers['drop'] = nn.Dropout(drop)
             head_layers['proj'] = nn.Linear(prev_chs, embed_dim)
+            if isinstance(pretrained, str):
+                head_layers['proj'].load_state_dict(fc)
         elif proj == 'mlp':
             head_layers['mlp'] = Mlp(prev_chs, 2 * embed_dim, embed_dim, drop=drop)
 

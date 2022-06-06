@@ -11,6 +11,11 @@ _RN50 = dict(
     cc12m="https://github.com/mlfoundations/open_clip/releases/download/v0.2-weights/rn50-quickgelu-cc12m-f000538c.pt"
 )
 
+_RN50_charmd = dict(
+    food101="models/open_clip_food101.pt"
+)
+
+
 _RN50_quickgelu = dict(
     openai="https://openaipublic.azureedge.net/clip/models/afeb0e10f9e5a86da6080e35cf09123aca3b358a0c3e3b6c78a7b63bc04b6762/RN50.pt",
     yfcc15m="https://github.com/mlfoundations/open_clip/releases/download/v0.2-weights/rn50-quickgelu-yfcc15m-455df137.pt",
@@ -73,6 +78,7 @@ _VITL14_336 = dict(
 
 _PRETRAINED = {
     "RN50": _RN50,
+    "RN50-charmd": _RN50_charmd,
     "RN50-quickgelu": _RN50_quickgelu,
     "RN101": _RN101,
     "RN101-quickgelu": _RN101_quickgelu,

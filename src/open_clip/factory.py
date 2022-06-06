@@ -86,12 +86,6 @@ def create_model(
             # override for use of QuickGELU on non-OpenAI transformer models
             model_cfg["quick_gelu"] = True
 
-        if pretrained_image:
-            if 'timm_model_name' in model_cfg.get('vision_cfg', {}):
-                # pretrained weight loading for timm models set via vision_cfg
-                model_cfg['vision_cfg']['timm_model_pretrained'] = True
-            else:
-                assert False, 'pretrained image towers currently only supported for timm models'
 
         model = CLIP(**model_cfg)
         

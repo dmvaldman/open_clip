@@ -1,0 +1,15 @@
+{
+    "embed_dim": 1024,
+    "vision_cfg": {
+        "timm_model_name": "resnet50",
+        "timm_model_pretrained": "models/resnet_food101_ckpt2.pt",
+        "image_size": 256
+    },
+    "text_cfg": {
+        "context_length": 77,
+        "vocab_size": 49408,
+        "width": 512,
+        "heads": 8,
+        "layers": 12
+    }
+}
